@@ -1,4 +1,4 @@
-name: Deploy Django to Azure VM
+name: Test VM Host
 
 on:
   push:
@@ -6,21 +6,15 @@ on:
       - main
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to Azure VM
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.VM_HOST }}
-          username: ${{ secrets.VM_USER }}
-          key: ${{ secrets.VM_SSH_KEY }}
-          script: |
-            cd /home/azureuser/djangoprojectwithgithub
-            git pull origin main
-            source venv/bin/activate
-            pip install -r requirements.txt
-            python manage.py migrate
-            python manage.py collectstatic --noinput
-            systemctl restart gunicorn
+      - name: Check VM Host
+        run: |
+          if [ -z "${{ secrets.VM_HOST }}" ]; then
+            echo "VM_HOST IS EMPTY"
+            exit 1
+          else
+            echo "VM_HOST IS AVAILABLE"
+          fi
