@@ -1,0 +1,102 @@
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+{% if employee %}
+    <h2>Edit Employee</h2>
+{% else %}
+    <h2>Add Employee</h2>
+{% endif %}
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Name</label>
+
+        <input type="text"
+               name="name"
+               class="form-control"
+               value="{{ employee.name|default:'' }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+
+        <input type="email"
+               name="email"
+               class="form-control"
+               value="{{ employee.email|default:'' }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Phone</label>
+
+        <input type="text"
+               name="phone"
+               class="form-control"
+               value="{{ employee.phone|default:'' }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Department</label>
+
+        <input type="text"
+               name="department"
+               class="form-control"
+               value="{{ employee.department|default:'' }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Designation</label>
+
+        <input type="text"
+               name="designation"
+               class="form-control"
+               value="{{ employee.designation|default:'' }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Salary</label>
+
+        <input type="number"
+               name="salary"
+               class="form-control"
+               value="{{ employee.salary|default:'' }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Joining Date</label>
+
+        <input type="date"
+               name="joining_date"
+               class="form-control"
+               value="{{ employee.joining_date|date:'Y-m-d' }}"
+               required>
+    </div>
+
+    <button class="btn btn-primary">
+
+        {% if employee %}
+            Update Employee
+        {% else %}
+            Add Employee
+        {% endif %}
+
+    </button>
+
+    <a href="{% url 'employee_list' %}"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>
+
+{% endblock %}
