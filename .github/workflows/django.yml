@@ -1,4 +1,4 @@
-name: Test VM Host
+name: Test Azure VM SSH
 
 on:
   push:
@@ -10,11 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check VM Host
-        run: |
-          if [ -z "${{ secrets.VM_HOST }}" ]; then
-            echo "VM_HOST IS EMPTY"
-            exit 1
-          else
-            echo "VM_HOST IS AVAILABLE"
-          fi
+      - name: SSH to Azure VM
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            echo "SSH connection successful!"
+            whoami
+            hostname
